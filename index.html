@@ -1,0 +1,473 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfect Reveal Planners — We Plan. You Get the Magic.</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Cinzel:wght@400;600;700&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#C9A84C;
+  --gold-light:#F0D080;
+  --gold-dark:#8B6914;
+  --black:#0A0806;
+  --black2:#110E08;
+  --cream:#FDF8EE;
+  --pink:#E8A0B4;
+}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--cream);font-family:'Jost',sans-serif;overflow-x:hidden;opacity:0;transition:opacity 0.7s ease;}
+body.loaded{opacity:1;}
+ 
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 4rem;background:rgba(10,8,6,0.92);border-bottom:1px solid rgba(201,168,76,0.2);backdrop-filter:blur(12px)}
+.nav-logo{font-family:'Cinzel',serif;font-size:1.1rem;letter-spacing:0.12em;color:var(--gold)}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-size:0.78rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(253,248,238,0.7);text-decoration:none;transition:color 0.3s}
+.nav-links a:hover{color:var(--gold)}
+.nav-cta{font-family:'Cinzel',serif;font-size:0.72rem;letter-spacing:0.14em;padding:0.55rem 1.4rem;border:1px solid var(--gold);color:var(--gold);background:transparent;cursor:pointer;text-transform:uppercase;transition:all 0.3s}
+.nav-cta:hover{background:var(--gold);color:var(--black)}
+ 
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;padding:8rem 2rem 4rem;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 55% at 50% 45%,rgba(201,168,76,0.13) 0%,transparent 70%)}
+.gold-line{width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0 auto 2rem}
+.hero-eyebrow{font-size:0.7rem;letter-spacing:0.35em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3.2rem,8vw,7rem);font-weight:300;line-height:1.05;color:var(--cream);margin-bottom:0.4rem}
+.hero-title em{font-style:italic;color:var(--gold-light)}
+.hero-subtitle{font-size:0.82rem;letter-spacing:0.28em;text-transform:uppercase;color:rgba(253,248,238,0.45);margin-bottom:2.4rem}
+.hero-desc{max-width:500px;font-size:1rem;line-height:1.85;color:rgba(253,248,238,0.65);margin:0 auto 3rem;font-weight:300}
+.btn-primary{font-family:'Cinzel',serif;font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;padding:1rem 2.8rem;background:linear-gradient(135deg,var(--gold-dark),var(--gold),var(--gold-light),var(--gold));color:var(--black);border:none;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(201,168,76,0.35)}
+.btn-ghost{font-family:'Cinzel',serif;font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;padding:1rem 2.8rem;border:1px solid rgba(201,168,76,0.5);color:var(--gold);background:transparent;cursor:pointer;transition:all 0.3s}
+.btn-ghost:hover{border-color:var(--gold);background:rgba(201,168,76,0.07);transform:translateY(-2px)}
+.hero-btns{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:1rem}
+.nav-toggle{display:none;background:transparent;border:none;cursor:pointer;flex-direction:column;gap:6px;width:42px;height:42px;justify-content:center;align-items:center}
+.nav-toggle span{display:block;width:22px;height:2px;background:var(--cream);transition:transform 0.3s ease, opacity 0.3s ease}
+.nav-toggle.active span:nth-child(1){transform:translateY(8px) rotate(45deg)}
+.nav-toggle.active span:nth-child(2){opacity:0}
+.nav-toggle.active span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+.nav-links.open{display:flex}
+.nav-links.open li{margin:0}
+.nav-links.open a{font-size:0.95rem}
+.nav-links{transition:all 0.3s ease}
+.plan-card:hover{transform:translateY(-6px) scale(1.01);box-shadow:0 18px 40px rgba(0,0,0,0.25)}
+.cat-card:hover{transform:translateY(-4px);box-shadow:0 16px 35px rgba(0,0,0,0.18)}
+.testi-card:hover{border-color:rgba(201,168,76,0.18);transform:translateY(-3px)}
+.animate-on-scroll{opacity:0;transform:translateY(24px);transition:opacity 0.85s ease, transform 0.85s ease}
+.animate-on-scroll.slide-left{transform:translateX(-28px)}
+.animate-on-scroll.slide-right{transform:translateX(28px)}
+.animate-on-scroll.visible{opacity:1;transform:translate(0)}
+.hero-eyebrow, .hero-title, .hero-desc, .hero-btns, .about-visual, .about-text, .plan-card, .cat-card, .testi-card, .step{will-change:transform,opacity}
+.hero-btns{transition-delay:0.15s}
+.hero-btns:hover .btn-primary, .hero-btns:hover .btn-ghost{transform:none}
+.hero-btns button{transition:transform 0.2s ease}
+.hero-btns button:hover{transform:translateY(-2px)}
+.hero-btns button:active{transform:scale(0.99)}
+.hero-btns{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:1rem}
+.sparkle{position:absolute;pointer-events:none;width:3px;height:3px;background:var(--gold);border-radius:50%;animation:twinkle 3s infinite}
+@keyframes twinkle{0%,100%{opacity:0;transform:scale(0)}50%{opacity:1;transform:scale(1)}}
+ 
+/* SECTION STYLES */
+section{padding:6rem 4rem}
+.section-label{font-size:0.65rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;text-align:center}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,5vw,3.8rem);font-weight:300;text-align:center;margin-bottom:0.6rem;color:var(--cream)}
+.section-title em{font-style:italic;color:var(--gold-light)}
+.divider{display:flex;align-items:center;gap:1rem;justify-content:center;margin-bottom:3.5rem}
+.divider span{width:40px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.divider span:last-child{background:linear-gradient(90deg,var(--gold),transparent)}
+ 
+/* ABOUT */
+.about{background:var(--black2);display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.about-img-frame{border:1px solid rgba(201,168,76,0.3);padding:2.5rem;position:relative;aspect-ratio:4/5;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.about-img-frame::before{content:'';position:absolute;inset:12px;border:1px solid rgba(201,168,76,0.15)}
+.about-img-frame::after{content:'PR';font-family:'Cormorant Garamond',serif;font-size:8rem;font-weight:300;color:rgba(201,168,76,0.08);letter-spacing:-0.02em}
+.about-corner{position:absolute;width:22px;height:22px;border-color:var(--gold);border-style:solid}
+.about-corner.tl{top:0;left:0;border-width:2px 0 0 2px}
+.about-corner.tr{top:0;right:0;border-width:2px 2px 0 0}
+.about-corner.bl{bottom:0;left:0;border-width:0 0 2px 2px}
+.about-corner.br{bottom:0;right:0;border-width:0 2px 2px 0}
+.about-text h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:300;margin-bottom:1.5rem;line-height:1.2}
+.about-text h2 em{font-style:italic;color:var(--gold-light)}
+.about-text p{font-size:0.95rem;line-height:1.9;color:rgba(253,248,238,0.6);margin-bottom:1.2rem;font-weight:300}
+.about-stat{display:flex;gap:3rem;margin-top:2.5rem;padding-top:2.5rem;border-top:1px solid rgba(201,168,76,0.15)}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;color:var(--gold);display:block}
+.stat-label{font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(253,248,238,0.4);margin-top:0.2rem}
+ 
+/* PLANS */
+.plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5px;background:rgba(201,168,76,0.12);max-width:1100px;margin:0 auto}
+.plan-card{background:var(--black);padding:2.5rem 2rem;position:relative;transition:background 0.3s}
+.plan-card:hover{background:rgba(201,168,76,0.05)}
+.plan-card.featured{background:rgba(201,168,76,0.07)}
+.plan-badge{font-size:0.6rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--black);background:linear-gradient(135deg,var(--gold-dark),var(--gold));padding:0.3rem 0.8rem;display:inline-block;margin-bottom:1.2rem}
+.plan-name{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:400;color:var(--cream);margin-bottom:0.3rem}
+.plan-price{font-family:'Cinzel',serif;font-size:2rem;color:var(--gold);margin-bottom:0.3rem}
+.plan-price span{font-size:0.9rem;font-family:'Jost',sans-serif;color:rgba(253,248,238,0.4);font-weight:300}
+.plan-desc{font-size:0.8rem;color:rgba(253,248,238,0.4);margin-bottom:1.8rem;line-height:1.6}
+.plan-features{list-style:none;margin-bottom:2rem}
+.plan-features li{font-size:0.85rem;color:rgba(253,248,238,0.65);padding:0.45rem 0;border-bottom:1px solid rgba(201,168,76,0.08);display:flex;align-items:center;gap:0.6rem;font-weight:300}
+.plan-features li::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.plan-btn{width:100%;padding:0.8rem;font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;border:1px solid rgba(201,168,76,0.4);background:transparent;color:var(--gold);cursor:pointer;transition:all 0.3s}
+.plan-btn:hover,.plan-card.featured .plan-btn{background:linear-gradient(135deg,var(--gold-dark),var(--gold));color:var(--black);border-color:transparent}
+ 
+/* OCCASIONS */
+.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;max-width:1100px;margin:0 auto}
+.cat-card{border:1px solid rgba(201,168,76,0.15);padding:2.2rem 1.5rem;text-align:center;cursor:pointer;transition:all 0.3s;overflow:hidden;position:relative}
+.cat-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,168,76,0.06),transparent);opacity:0;transition:opacity 0.3s}
+.cat-card:hover{border-color:rgba(201,168,76,0.4);transform:translateY(-4px)}
+.cat-card:hover::before{opacity:1}
+.cat-icon{font-size:2rem;margin-bottom:1rem;display:block}
+.cat-name{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:400;color:var(--cream);margin-bottom:0.4rem}
+.cat-sub{font-size:0.75rem;color:rgba(253,248,238,0.4);letter-spacing:0.08em}
+ 
+/* TESTIMONIALS */
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1100px;margin:0 auto}
+.testi-card{border:1px solid rgba(201,168,76,0.12);padding:2rem;text-align:left;position:relative}
+.testi-card::before{content:'"';font-family:'Cormorant Garamond',serif;font-size:5rem;color:rgba(201,168,76,0.12);position:absolute;top:-1rem;left:1.2rem;line-height:1}
+.testi-stars{color:var(--gold);font-size:0.8rem;letter-spacing:0.1em;margin-bottom:1rem}
+.testi-text{font-family:'Cormorant Garamond',serif;font-size:1.05rem;line-height:1.8;color:rgba(253,248,238,0.6);margin-bottom:1.5rem;font-style:italic}
+.testi-author{font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold)}
+.testi-role{font-size:0.72rem;color:rgba(253,248,238,0.3);margin-top:0.2rem}
+ 
+/* HOW IT WORKS */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;max-width:1100px;margin:0 auto;position:relative}
+.steps::before{content:'';position:absolute;top:3.5rem;left:12.5%;right:12.5%;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.3),var(--gold),rgba(201,168,76,0.3),transparent)}
+.step{text-align:center;padding:2rem 1.5rem}
+.step-num{width:56px;height:56px;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-family:'Cinzel',serif;font-size:1rem;color:var(--gold);background:var(--black2);position:relative;z-index:1}
+.step-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;color:var(--cream);margin-bottom:0.5rem}
+.step-desc{font-size:0.8rem;color:rgba(253,248,238,0.4);line-height:1.7;font-weight:300}
+ 
+/* CTA */
+.cta-section{text-align:center;padding:7rem 4rem;position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(201,168,76,0.1) 0%,transparent 70%)}
+.phone-badge{display:inline-flex;align-items:center;gap:0.8rem;border:1px solid rgba(201,168,76,0.3);padding:0.8rem 2rem;margin-bottom:2rem;font-family:'Cinzel',serif;font-size:0.9rem;color:var(--gold-light)}
+ 
+/* FOOTER */
+footer{border-top:1px solid rgba(201,168,76,0.15);padding:3rem 4rem;display:flex;align-items:center;justify-content:space-between;background:var(--black2)}
+.footer-logo{font-family:'Cinzel',serif;font-size:1rem;color:var(--gold);letter-spacing:0.1em}
+.footer-tagline{font-size:0.72rem;color:rgba(253,248,238,0.3);letter-spacing:0.2em;text-transform:uppercase;margin-top:0.3rem}
+.footer-links{display:flex;gap:2rem;list-style:none}
+.footer-links a{font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(253,248,238,0.35);text-decoration:none;transition:color 0.3s}
+.footer-links a:hover{color:var(--gold)}
+.footer-copy{font-size:0.72rem;color:rgba(253,248,238,0.2)}
+ 
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem}
+  .nav-toggle{display:flex}
+  .nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(10,8,6,0.98);padding:1.2rem 1.5rem;flex-direction:column;gap:0.75rem;border-top:1px solid rgba(201,168,76,0.12);z-index:99}
+  .nav-links.open{display:flex}
+  .nav-links li{margin:0}
+  .nav-links a{display:block;padding:0.75rem 0}
+  section{padding:4rem 1.5rem}
+  .about{grid-template-columns:1fr;gap:2rem}
+  .plans-grid{grid-template-columns:1fr}
+  .cat-grid{grid-template-columns:repeat(2,1fr)}
+  .testi-grid{grid-template-columns:1fr}
+  .steps{grid-template-columns:repeat(2,1fr)}
+  .steps::before{display:none}
+  footer{flex-direction:column;gap:1.5rem;text-align:center}
+  .footer-links{flex-wrap:wrap;justify-content:center}
+}
+</style>
+</head>
+<body>
+ 
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Perfect Reveal Planners</div>
+  <button class="nav-toggle" aria-label="Toggle menu" type="button">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#plans">Plans</a></li>
+    <li><a href="#occasions">Occasions</a></li>
+    <li><a href="#how">Process</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+  </ul>
+  <button class="nav-cta">Book Now</button>
+</nav>
+ 
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="sparkle" style="top:20%;left:15%;animation-delay:0s"></div>
+  <div class="sparkle" style="top:35%;left:80%;animation-delay:0.8s"></div>
+  <div class="sparkle" style="top:65%;left:12%;animation-delay:1.6s"></div>
+  <div class="sparkle" style="top:25%;right:20%;animation-delay:2.2s"></div>
+  <div class="sparkle" style="top:75%;right:25%;animation-delay:0.4s"></div>
+  <div class="sparkle" style="top:55%;left:88%;animation-delay:1.2s"></div>
+  <div class="sparkle" style="top:80%;left:50%;animation-delay:1.8s"></div>
+  <div class="sparkle" style="top:10%;left:60%;animation-delay:0.6s"></div>
+ 
+  <div class="hero-eyebrow">✦ Crafting Magical Surprise Experiences ✦</div>
+  <div class="gold-line"></div>
+  <h1 class="hero-title">We Plan.<br><em>You Get the Magic.</em></h1>
+  <p class="hero-subtitle">Perfect Reveal Planners · Hyderabad</p>
+  <p class="hero-desc">From intimate birthday surprises to grand romantic gestures — we design every detail so your loved one feels truly celebrated.</p>
+  <div class="hero-btns">
+    <button class="btn-primary" onclick="document.getElementById('plans').scrollIntoView({behavior:'smooth'})">Explore Plans</button>
+    <button class="btn-ghost" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">How It Works</button>
+  </div>
+</section>
+ 
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-visual">
+    <div class="about-img-frame" style="position:relative">
+      <div class="about-corner tl"></div>
+      <div class="about-corner tr"></div>
+      <div class="about-corner bl"></div>
+      <div class="about-corner br"></div>
+    </div>
+  </div>
+  <div class="about-text">
+    <p class="section-label" style="text-align:left">Our Story</p>
+    <h2>Born from a <em>love for surprises</em></h2>
+    <p>Perfect Reveal Planners was built on one belief — every person deserves a moment that takes their breath away. We began as passionate surprise-crafters and grew into Hyderabad's most trusted celebration experts.</p>
+    <p>We handle every element: the cake, the flowers, the gifts, the doorstep delivery — so you can be fully present for the moment that matters most.</p>
+    <div class="about-stat">
+      <div>
+        <span class="stat-num">500+</span>
+        <div class="stat-label">Surprises Delivered</div>
+      </div>
+      <div>
+        <span class="stat-num">5★</span>
+        <div class="stat-label">Avg. Rating</div>
+      </div>
+      <div>
+        <span class="stat-num">3yr</span>
+        <div class="stat-label">Of Crafting Magic</div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- PLANS -->
+<section id="plans" style="background:var(--black);padding:6rem 4rem">
+  <p class="section-label">Celebration Packages</p>
+  <h2 class="section-title">Choose Your <em>Perfect Plan</em></h2>
+  <div class="divider"><span></span><span style="font-size:0.5rem;color:var(--gold)">✦</span><span></span></div>
+ 
+  <div class="plans-grid">
+    <div class="plan-card">
+      <div class="plan-name">Plan Base</div>
+      <div class="plan-price">₹1199 <span>/ surprise</span></div>
+      <p class="plan-desc">The perfect start — everything essential for a beautiful surprise.</p>
+      <ul class="plan-features">
+        <li>Customized Cake</li>
+        <li>Gift</li>
+        <li>Flower Bouquet</li>
+        <li>Complimentary Gift</li>
+        <li>Surprise at Doorstep</li>
+      </ul>
+      <button class="plan-btn">Select Plan</button>
+    </div>
+ 
+    <div class="plan-card featured">
+      <div class="plan-badge">✦ Most Popular</div>
+      <div class="plan-name">Plan Platinum</div>
+      <div class="plan-price">₹2149 <span>/ surprise</span></div>
+      <p class="plan-desc">Our signature experience — the full magic, nothing held back.</p>
+      <ul class="plan-features">
+        <li>Customized Cake</li>
+        <li>2 Gifts</li>
+        <li>Rose Bouquet</li>
+        <li>Rose Flowers</li>
+        <li>Complimentary Gift</li>
+        <li>Photo Frame (12×24)</li>
+        <li>Surprise at Doorstep</li>
+      </ul>
+      <button class="plan-btn">Select Plan</button>
+    </div>
+ 
+    <div class="plan-card">
+      <div class="plan-name">Plan Gold</div>
+      <div class="plan-price">₹1549 <span>/ surprise</span></div>
+      <p class="plan-desc">Elevated elegance with a memorable keepsake to treasure forever.</p>
+      <ul class="plan-features">
+        <li>Customized Cake</li>
+        <li>Gift</li>
+        <li>Rose Bouquet</li>
+        <li>Complimentary Gift</li>
+        <li>Photo Frame (8×12)</li>
+        <li>Surprise at Doorstep</li>
+      </ul>
+      <button class="plan-btn">Select Plan</button>
+    </div>
+ 
+    <div class="plan-card">
+      <div class="plan-name">Teddy Plan</div>
+      <div class="plan-price">₹1549 <span>/ surprise</span></div>
+      <p class="plan-desc">Add a cuddly twist — because some surprises deserve a companion.</p>
+      <ul class="plan-features">
+        <li>Gift</li>
+        <li>Customized Cake</li>
+        <li>Flower Bouquet</li>
+        <li>Complimentary Gift</li>
+        <li>Teddy Man Surprise</li>
+        <li>Surprise at Doorstep</li>
+      </ul>
+      <button class="plan-btn">Select Plan</button>
+    </div>
+ 
+    <div style="background:var(--black)"></div>
+ 
+    <div class="plan-card">
+      <div class="plan-name">Teddy Plan</div>
+      <div class="plan-price">₹1849 <span>/ surprise</span></div>
+      <p class="plan-desc">The premium teddy experience — roses, frames, and pure delight.</p>
+      <ul class="plan-features">
+        <li>Gift</li>
+        <li>Customized Cake</li>
+        <li>Rose Flower Bouquet</li>
+        <li>Photo Frame</li>
+        <li>Complimentary Gift</li>
+        <li>Teddy Man Surprise</li>
+      </ul>
+      <button class="plan-btn">Select Plan</button>
+    </div>
+  </div>
+</section>
+ 
+<!-- OCCASIONS -->
+<section style="background:var(--black2);padding:6rem 4rem" id="occasions">
+  <p class="section-label">Every Occasion</p>
+  <h2 class="section-title">We Celebrate <em>All of It</em></h2>
+  <div class="divider"><span></span><span style="font-size:0.5rem;color:var(--gold)">✦</span><span></span></div>
+  <div class="cat-grid">
+    <div class="cat-card">
+      <span class="cat-icon">🎂</span>
+      <div class="cat-name">Birthdays</div>
+      <div class="cat-sub">Make them feel like royalty</div>
+    </div>
+    <div class="cat-card">
+      <span class="cat-icon">💍</span>
+      <div class="cat-name">Anniversaries</div>
+      <div class="cat-sub">Relive the magic of your love</div>
+    </div>
+    <div class="cat-card">
+      <span class="cat-icon">🌹</span>
+      <div class="cat-name">Proposals</div>
+      <div class="cat-sub">The perfect yes moment</div>
+    </div>
+    <div class="cat-card">
+      <span class="cat-icon">🎓</span>
+      <div class="cat-name">Graduations</div>
+      <div class="cat-sub">Celebrate every milestone</div>
+    </div>
+  </div>
+</section>
+ 
+<!-- HOW IT WORKS -->
+<section style="background:var(--black);padding:6rem 4rem" id="how">
+  <p class="section-label">The Process</p>
+  <h2 class="section-title">Four Steps to <em>Pure Magic</em></h2>
+  <div class="divider"><span></span><span style="font-size:0.5rem;color:var(--gold)">✦</span><span></span></div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-title">Choose a Plan</div>
+      <p class="step-desc">Pick the package that matches your vision and budget.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-title">Share Details</div>
+      <p class="step-desc">Tell us the occasion, preferences, and the perfect time.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-title">We Prepare</div>
+      <p class="step-desc">Our team curates every element — cake, gifts, flowers, frames.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-title">You Watch the Magic</div>
+      <p class="step-desc">We deliver the surprise. You collect the memories.</p>
+    </div>
+  </div>
+</section>
+ 
+<!-- TESTIMONIALS -->
+<section style="background:var(--black2);padding:6rem 4rem;text-align:center" id="reviews">
+  <p class="section-label">Stories of Joy</p>
+  <h2 class="section-title">What Our <em>Clients Say</em></h2>
+  <div class="divider"><span></span><span style="font-size:0.5rem;color:var(--gold)">✦</span><span></span></div>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">My partner was absolutely speechless. Every single detail was perfect — the roses, the cake, the timing. Perfect Reveal truly lives up to their name.</p>
+      <div class="testi-author">Priya Sharma</div>
+      <div class="testi-role">Anniversary Surprise · Hyderabad</div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">I booked the Platinum plan for my mother's birthday. She cried happy tears. Worth every rupee — the photo frame alone was stunning.</p>
+      <div class="testi-author">Rahul Nair</div>
+      <div class="testi-role">Birthday Surprise · Hyderabad</div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">The Teddy Man surprise was such a unique touch! They were professional, punctual, and turned an ordinary evening into something extraordinary.</p>
+      <div class="testi-author">Ananya Reddy</div>
+      <div class="testi-role">Proposal · Hyderabad</div>
+    </div>
+  </div>
+</section>
+ 
+<!-- CTA -->
+<section class="cta-section" style="background:var(--black)">
+  <p class="section-label">Ready to Begin?</p>
+  <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,6vw,5rem);font-weight:300;margin-bottom:1rem;position:relative;z-index:1">Create a Moment<br><em style="color:var(--gold-light)">They'll Never Forget</em></h2>
+  <p style="color:rgba(253,248,238,0.5);margin-bottom:2.5rem;font-size:1rem;font-weight:300;position:relative;z-index:1">Every surprise is crafted with love, precision, and a touch of gold.</p>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:1.5rem;position:relative;z-index:1">
+    <button class="btn-primary" style="font-size:0.8rem;padding:1.1rem 3.5rem">Book Your Surprise Now</button>
+  </div>
+</section>
+ 
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">Perfect Reveal Planners</div>
+    <div class="footer-tagline">We Plan. You Get the Magic.</div>
+  </div>
+  <ul class="footer-links">
+    <li><a href="#plans">Plans</a></li>
+    <li><a href="#occasions">Occasions</a></li>
+    <li><a href="#how">Process</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 Perfect Reveal Planners · Hyderabad</div>
+</footer>
+<script>
+window.addEventListener('load', () => {
+  document.body.classList.add('loaded');
+  const animatedElements = document.querySelectorAll('section, .plan-card, .cat-card, .testi-card, .step, .hero-eyebrow, .hero-title, .hero-desc, .hero-btns, .about-visual, .about-text');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.18 });
+  animatedElements.forEach(element => {
+    element.classList.add('animate-on-scroll');
+    observer.observe(element);
+  });
+});
+const navToggle = document.querySelector('.nav-toggle');
+const navLinks = document.querySelector('.nav-links');
+if (navToggle && navLinks) {
+  navToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+    navToggle.classList.toggle('active');
+  });
+}
+</script>
+</body>
+</html>
