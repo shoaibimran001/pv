@@ -24,7 +24,10 @@ body.loaded{opacity:1;}
  
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 4rem;background:rgba(10,8,6,0.92);border-bottom:1px solid rgba(201,168,76,0.2);backdrop-filter:blur(12px)}
-.nav-logo{font-family:'Cinzel',serif;font-size:1.1rem;letter-spacing:0.12em;color:var(--gold)}
+.nav-logo{display:flex;align-items:center;gap:0.8rem;font-family:'Cinzel',serif;font-size:1rem;color:var(--gold);text-decoration:none}
+.nav-logo span{font-size:0.95rem;letter-spacing:0.12em;text-transform:uppercase}
+.logo-img{height:44px;width:auto;display:block}
+.logo-img-small{height:28px;width:auto;display:block}
 .nav-links{display:flex;gap:2.5rem;list-style:none}
 .nav-links a{font-size:0.78rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(253,248,238,0.7);text-decoration:none;transition:color 0.3s}
 .nav-links a:hover{color:var(--gold)}
@@ -38,6 +41,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .hero-eyebrow{font-size:0.7rem;letter-spacing:0.35em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem}
 .hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3.2rem,8vw,7rem);font-weight:300;line-height:1.05;color:var(--cream);margin-bottom:0.4rem}
 .hero-title em{font-style:italic;color:var(--gold-light)}
+.typed-text{display:inline-block;white-space:nowrap;overflow:hidden;border-right:2px solid rgba(253,248,238,0.7);animation:blinkCursor 0.75s step-end infinite;}
+@keyframes blinkCursor{0%,100%{border-color:transparent}50%{border-color:rgba(253,248,238,0.7)}}
 .hero-subtitle{font-size:0.82rem;letter-spacing:0.28em;text-transform:uppercase;color:rgba(253,248,238,0.45);margin-bottom:2.4rem}
 .hero-desc{max-width:500px;font-size:1rem;line-height:1.85;color:rgba(253,248,238,0.65);margin:0 auto 3rem;font-weight:300}
 .btn-primary{font-family:'Cinzel',serif;font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;padding:1rem 2.8rem;background:linear-gradient(135deg,var(--gold-dark),var(--gold),var(--gold-light),var(--gold));color:var(--black);border:none;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s}
@@ -57,7 +62,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .plan-card:hover{transform:translateY(-6px) scale(1.01);box-shadow:0 18px 40px rgba(0,0,0,0.25)}
 .cat-card:hover{transform:translateY(-4px);box-shadow:0 16px 35px rgba(0,0,0,0.18)}
 .testi-card:hover{border-color:rgba(201,168,76,0.18);transform:translateY(-3px)}
-.animate-on-scroll{opacity:0;transform:translateY(24px);transition:opacity 0.85s ease, transform 0.85s ease}
+..animate-on-scroll{opacity:0;transform:translateY(24px);transition:opacity 0.95s ease, transform 0.95s ease;transition-delay:var(--delay,0s)}
 .animate-on-scroll.slide-left{transform:translateX(-28px)}
 .animate-on-scroll.slide-right{transform:translateX(28px)}
 .animate-on-scroll.visible{opacity:1;transform:translate(0)}
@@ -70,6 +75,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .hero-btns{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:1rem}
 .sparkle{position:absolute;pointer-events:none;width:3px;height:3px;background:var(--gold);border-radius:50%;animation:twinkle 3s infinite}
 @keyframes twinkle{0%,100%{opacity:0;transform:scale(0)}50%{opacity:1;transform:scale(1)}}
+@keyframes floatPulse{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes glow{0%,100%{box-shadow:0 0 0 rgba(201,168,76,0)}50%{box-shadow:0 0 30px rgba(201,168,76,0.15)}}
+.btn-primary{animation:glow 6s ease-in-out infinite;}
+.hero-title{animation:floatPulse 8s ease-in-out infinite;}
+.cta-section .btn-primary{animation:none;}
+.nav-links a, .nav-cta{transition:transform 0.25s ease,color 0.25s ease}
+.nav-links a:hover, .nav-cta:hover{transform:translateY(-1px)}
  
 /* SECTION STYLES */
 section{padding:6rem 4rem}
@@ -177,7 +189,10 @@ footer{border-top:1px solid rgba(201,168,76,0.15);padding:3rem 4rem;display:flex
  
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">Perfect Reveal Planners</div>
+  <a href="#home" class="nav-logo">
+    <img src="logo.png" alt="Perfect Reveal Planners logo" class="logo-img" onerror="this.style.display='none'" />
+    <span>Perfect Reveal Planners</span>
+  </a>
   <button class="nav-toggle" aria-label="Toggle menu" type="button">
     <span></span>
     <span></span>
@@ -205,12 +220,12 @@ footer{border-top:1px solid rgba(201,168,76,0.15);padding:3rem 4rem;display:flex
   <div class="sparkle" style="top:80%;left:50%;animation-delay:1.8s"></div>
   <div class="sparkle" style="top:10%;left:60%;animation-delay:0.6s"></div>
  
-  <div class="hero-eyebrow">✦ Crafting Magical Surprise Experiences ✦</div>
-  <div class="gold-line"></div>
-  <h1 class="hero-title">We Plan.<br><em>You Get the Magic.</em></h1>
-  <p class="hero-subtitle">Perfect Reveal Planners · Hyderabad</p>
-  <p class="hero-desc">From intimate birthday surprises to grand romantic gestures — we design every detail so your loved one feels truly celebrated.</p>
-  <div class="hero-btns">
+  <div class="hero-eyebrow" style="--delay:0.1s">✦ Crafting Magical Surprise Experiences ✦</div>
+  <div class="gold-line" style="--delay:0.15s"></div>
+  <h1 class="hero-title" style="--delay:0.22s">We Plan.<br><em><span class="typed-text" id="typed-text"></span></em></h1>
+  <p class="hero-subtitle" style="--delay:0.3s">Perfect Reveal Planners · Hyderabad</p>
+  <p class="hero-desc" style="--delay:0.38s">From intimate birthday surprises to grand romantic gestures — we design every detail so your loved one feels truly celebrated.</p>
+  <div class="hero-btns" style="--delay:0.46s">
     <button class="btn-primary" onclick="document.getElementById('plans').scrollIntoView({behavior:'smooth'})">Explore Plans</button>
     <button class="btn-ghost" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">How It Works</button>
   </div>
@@ -433,7 +448,10 @@ footer{border-top:1px solid rgba(201,168,76,0.15);padding:3rem 4rem;display:flex
 <!-- FOOTER -->
 <footer>
   <div>
-    <div class="footer-logo">Perfect Reveal Planners</div>
+    <a href="#home" class="footer-logo">
+      <img src="logo.png" alt="Perfect Reveal Planners logo" class="logo-img-small" onerror="this.style.display='none'" />
+      <span>Perfect Reveal Planners</span>
+    </a>
     <div class="footer-tagline">We Plan. You Get the Magic.</div>
   </div>
   <ul class="footer-links">
@@ -467,6 +485,34 @@ if (navToggle && navLinks) {
     navLinks.classList.toggle('open');
     navToggle.classList.toggle('active');
   });
+}
+const typedTextElement = document.getElementById('typed-text');
+const typedPhrases = ['You Get the Magic.', 'Memories That Last Forever.', 'Every Surprise Crafted with Care.'];
+let phraseIndex = 0;
+let charIndex = 0;
+let typing = true;
+function runTyping() {
+  const currentPhrase = typedPhrases[phraseIndex];
+  if (typing) {
+    charIndex++;
+    typedTextElement.textContent = currentPhrase.slice(0, charIndex);
+    if (charIndex === currentPhrase.length) {
+      typing = false;
+      setTimeout(runTyping, 1800);
+      return;
+    }
+  } else {
+    charIndex--;
+    typedTextElement.textContent = currentPhrase.slice(0, charIndex);
+    if (charIndex === 0) {
+      typing = true;
+      phraseIndex = (phraseIndex + 1) % typedPhrases.length;
+    }
+  }
+  setTimeout(runTyping, typing ? 90 : 40);
+}
+if (typedTextElement) {
+  runTyping();
 }
 </script>
 </body>
